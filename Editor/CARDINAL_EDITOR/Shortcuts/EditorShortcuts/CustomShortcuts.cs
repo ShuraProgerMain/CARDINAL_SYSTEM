@@ -1,24 +1,14 @@
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using UnityEditor;
-using Debug = UnityEngine.Debug;
 
 namespace Cardinal.Editor.CARDINAL_EDITOR.Shortcuts.EditorShortcuts
 {
     public class CustomShortcuts : UnityEditor.AssetModificationProcessor
     {
-        public const string PATH_TO_MY_TEMPLATE_SCRIPT =
-            "Packages/CARDINAL/Editor/CARDINAL_EDITOR/Shortcuts/ScriptTemplates/Template.txt";
-        
+        public static string pathToMyTemplateScript =
+            "/Editor/CARDINAL_EDITOR/Shortcuts/ScriptTemplates/Template.txt";
 
-        [MenuItem("CARDINAL/EditorExtension/C %#F")]
-        public static void Test()
-        {
-            Debug.Log(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-        }
-        
         [MenuItem("CARDINAL/EditorExtension/Create folder %F")]
         public static void CreateFolder()
         {
@@ -28,7 +18,18 @@ namespace Cardinal.Editor.CARDINAL_EDITOR.Shortcuts.EditorShortcuts
         [MenuItem("CARDINAL/EditorExtension/Create script %G")]
         public static void CreateScript()
         {
-            ProjectWindowUtil.CreateScriptAssetFromTemplateFile( PATH_TO_MY_TEMPLATE_SCRIPT, "Behaviour.cs");
+            var a = Directory.GetDirectories("Library/PackageCache");
+
+            foreach (var name in a)
+            {
+                if (name.Contains("cardinal"))
+                {
+                    pathToMyTemplateScript = name.Replace('\\', '/') + pathToMyTemplateScript;
+                    
+                }
+            }
+            
+            ProjectWindowUtil.CreateScriptAssetFromTemplateFile( pathToMyTemplateScript, "Behaviour.cs");
         }
         
         private static void OnWillCreateAsset(string path)
@@ -43,7 +44,7 @@ namespace Cardinal.Editor.CARDINAL_EDITOR.Shortcuts.EditorShortcuts
             
             if(file != ".cs" && file != ".js" && file != ".boo") return;
             
-            file = System.IO.File.ReadAllText(path);
+            file = File.ReadAllText(path);
 
             var lastPart = path.Substring(path.IndexOf("/", StringComparison.Ordinal));
             
@@ -54,7 +55,7 @@ namespace Cardinal.Editor.CARDINAL_EDITOR.Shortcuts.EditorShortcuts
             
             file = file.Replace("#NAMESPACE#", nameSpace);
 
-            System.IO.File.WriteAllText(path, file);
+            File.WriteAllText(path, file);
             AssetDatabase.Refresh();
         }
     }
