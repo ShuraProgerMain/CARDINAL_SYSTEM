@@ -7,7 +7,7 @@ namespace Cardinal.Editor.CARDINAL_EDITOR.Shortcuts.EditorShortcuts
     public class NewBehaviourScript : UnityEditor.AssetModificationProcessor
     {
         public const string PATH_TO_MY_TEMPLATE_SCRIPT =
-            "Packages/CARDINAL/Editor/CARDINAL_EDITOR/Shortcuts/ScriptTemplates/Template.txt";
+            "Library/PackageCache/com.stupidshitcreate.cardinalsystem@6b4c5c8406/Editor/CARDINAL_EDITOR/Shortcuts/ScriptTemplates/Template.txt";
         
 
         [MenuItem("CARDINAL/EditorExtension/Create folder %F")]
