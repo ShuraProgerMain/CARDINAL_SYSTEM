@@ -1,15 +1,24 @@
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using UnityEditor;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Cardinal.Editor.CARDINAL_EDITOR.Shortcuts.EditorShortcuts
 {
-    public class NewBehaviourScript : UnityEditor.AssetModificationProcessor
+    public class CustomShortcuts : UnityEditor.AssetModificationProcessor
     {
         public const string PATH_TO_MY_TEMPLATE_SCRIPT =
-            "Library/PackageCache/com.stupidshitcreate.cardinalsystem@6b4c5c8406/Editor/CARDINAL_EDITOR/Shortcuts/ScriptTemplates/Template.txt";
+            "Packages/CARDINAL/Editor/CARDINAL_EDITOR/Shortcuts/ScriptTemplates/Template.txt";
         
 
+        [MenuItem("CARDINAL/EditorExtension/C %#F")]
+        public static void Test()
+        {
+            Debug.Log(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+        }
+        
         [MenuItem("CARDINAL/EditorExtension/Create folder %F")]
         public static void CreateFolder()
         {
@@ -19,7 +28,7 @@ namespace Cardinal.Editor.CARDINAL_EDITOR.Shortcuts.EditorShortcuts
         [MenuItem("CARDINAL/EditorExtension/Create script %G")]
         public static void CreateScript()
         {
-            ProjectWindowUtil.CreateScriptAssetFromTemplateFile(PATH_TO_MY_TEMPLATE_SCRIPT, "Behaviour.cs");
+            ProjectWindowUtil.CreateScriptAssetFromTemplateFile( PATH_TO_MY_TEMPLATE_SCRIPT, "Behaviour.cs");
         }
         
         private static void OnWillCreateAsset(string path)
