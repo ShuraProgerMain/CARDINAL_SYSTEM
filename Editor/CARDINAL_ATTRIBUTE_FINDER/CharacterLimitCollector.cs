@@ -3,20 +3,20 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Cardinal.Editor.CARDINAL_ATTRIBUTES;
 using UnityEditor;
-using UnityEngine;
+using Assembly = System.Reflection.Assembly;
 
 namespace Cardinal.Editor.CARDINAL_ATTRIBUTE_FINDER
 {
     public class CharacterLimitCollector : UnityEditor.Editor
     {
         [InitializeOnLoadMethod]
-        public static async void Init()
+        public static async Task Init()
         {
 #if UNITY_EDITOR
             while (true)
             {
                 var delay = 300;
-                
+
                 // if (Application.isPlaying)
                 // {
                 //     delay = 10_000;
@@ -27,15 +27,18 @@ namespace Cardinal.Editor.CARDINAL_ATTRIBUTE_FINDER
 
                 await Task.Delay(delay);
 
-                var types = Assembly.GetExecutingAssembly().GetTypes();
+                var types = Assembly.Load("Assembly-CSharp").GetTypes();
 
                 foreach (var type in types)
                 {
+
                     Type newType = type;
 
                     if (newType != null)
                     {
-                        var properties = newType.GetProperties();
+                        var properties = newType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic |
+                                                               BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+
                         var fields = newType.GetFields(BindingFlags.Public | BindingFlags.NonPublic |
                                                        BindingFlags.Instance | BindingFlags.FlattenHierarchy);
 
@@ -47,7 +50,6 @@ namespace Cardinal.Editor.CARDINAL_ATTRIBUTE_FINDER
                             {
                                 if (attr is CharacterLimitAttribute a)
                                 {
-                                    Debug.Log(propertyInfo.Name + " khm " + a.value);
                                 }
                             }
                         }
@@ -68,8 +70,8 @@ namespace Cardinal.Editor.CARDINAL_ATTRIBUTE_FINDER
                                     {
                                         var clamp = value.Length - a.value;
                                         clamp = clamp < 0 ? 0 : clamp;
-                                        
-                                        if(clamp > 0)
+
+                                        if (clamp > 0)
                                             value = value.Remove(a.value, clamp);
 
                                         field.SetValue(ad, value);
