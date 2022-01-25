@@ -8,13 +8,13 @@ namespace CARDINAL.Editor.CARDINAL_EDITOR.HierarhyCreator
     {
         private static List<GameObject> _objects = new List<GameObject>();
     
-        [MenuItem("Tools/Create hierarhy %#H")]
+        [MenuItem("CARDINAL/EditorExtension/Create hierarhy %#H")]
         public static void CreateHierarhy()
         {
             NewHierarhyObjects();
         }
     
-        [MenuItem("Tools/Delete hierarhy %&H")]
+        [MenuItem("CARDINAL/EditorExtension/Delete hierarhy %&H")]
         public static void DeleteHierarhy()
         {
             if(_objects.Count == 0) return;
