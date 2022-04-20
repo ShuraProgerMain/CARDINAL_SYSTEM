@@ -1,13 +1,14 @@
 using System;
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 namespace CardinalSystem.Cardinal.Editor.EditorExtensions.Shortcuts.EditorShortcuts
 {
     public class CustomShortcuts : AssetModificationProcessor
     {
         private static string _pathToMyTemplateScript =
-            "/Editor/EditorWindow/Shortcuts/ScriptTemplates/Template.txt";
+            "/Editor/EditorExtensions/Shortcuts/ScriptTemplates/Template.txt";
 
         [MenuItem("CARDINAL/EditorExtension/Create folder %F")]
         public static void CreateFolder()
@@ -18,16 +19,27 @@ namespace CardinalSystem.Cardinal.Editor.EditorExtensions.Shortcuts.EditorShortc
         [MenuItem("CARDINAL/EditorExtension/Create script %G")]
         public static void CreateScript()
         {
-            var a = Directory.GetDirectories("Library/PackageCache");
-
-            foreach (var name in a)
+            var tempPath =
+                @"D:\UnityProjects\MyAssets\CARDINAL\Packages\Cardinal\Editor\EditorExtensions\Shortcuts\ScriptTemplates";
+            if(Directory.Exists(tempPath))
             {
-                if (name.Contains("cardinal"))
+                _pathToMyTemplateScript = tempPath + @"\Template.txt";
+            }
+            else
+            {
+                var a = Directory.GetDirectories("Library/PackageCache");
+
+                foreach (var name in a)
                 {
-                    _pathToMyTemplateScript = name.Replace('\\', '/') + _pathToMyTemplateScript;
-                    
+                    if (name.Contains(".stupidshitcreate."))
+                    {
+                        _pathToMyTemplateScript = name.Replace('\\', '/') + _pathToMyTemplateScript;
+                        Debug.Log("VAR");
+                    }
                 }
             }
+            
+            Debug.Log(_pathToMyTemplateScript);
             
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile( _pathToMyTemplateScript, "Behaviour.cs");
         }
