@@ -7,7 +7,7 @@ namespace CardinalSystem.Cardinal.Editor.EditorExtensions.Shortcuts.EditorShortc
     public class CustomShortcuts : AssetModificationProcessor
     {
         private static string _pathToMyTemplateScript =
-            "/Editor/CARDINAL_EDITOR/Shortcuts/ScriptTemplates/Template.txt";
+            "/Editor/EditorWindow/Shortcuts/ScriptTemplates/Template.txt";
 
         [MenuItem("CARDINAL/EditorExtension/Create folder %F")]
         public static void CreateFolder()
