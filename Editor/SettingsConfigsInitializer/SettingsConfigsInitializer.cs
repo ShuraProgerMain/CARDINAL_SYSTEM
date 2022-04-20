@@ -20,7 +20,6 @@ namespace CardinalSystem.Cardinal.Editor.SettingsConfigsInitializer
                 .Where(p => type.IsAssignableFrom(p));
 
             var enumerable = types.ToList();
-            Debug.Log(enumerable.Count());
             foreach (Type t in enumerable)
             {
                 if (t.GetInterface(nameof(ISettingConfigurationBroker)) == null) continue;
