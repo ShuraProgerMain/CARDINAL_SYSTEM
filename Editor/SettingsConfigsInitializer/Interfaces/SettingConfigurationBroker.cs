@@ -6,16 +6,16 @@ using UnityEngine;
 
 namespace CardinalSystem.Cardinal.Editor.SettingsConfigsInitializer.Interfaces
 {
-    public interface ISettingConfigurationBroker
+    public abstract class SettingConfigurationBroker
     {
-        public string DirectoryLevelOne { get; set; }
-        public string DirectoryLevelTwo { get; set; }
-        public string NameFile { get; set; }
-        public string FullPath { get; set; }
+        protected string DirectoryLevelOne { get; set; }
+        protected string DirectoryLevelTwo { get; set; }
+        protected string NameFile { get; set; }
+        protected string FullPath { get; set; }
         
-        public Task Initialize();
+        public abstract Task Initialize();
 
-        public Task InitDirectory()
+        protected Task InitDirectory()
         {
             DirectoryLevelOne =  string.IsNullOrEmpty(DirectoryLevelOne) ? "/Resources" : DirectoryLevelOne;
             DirectoryLevelTwo = string.IsNullOrEmpty(DirectoryLevelTwo) ? "/ConfigCreatedWithCardinal" : DirectoryLevelTwo;

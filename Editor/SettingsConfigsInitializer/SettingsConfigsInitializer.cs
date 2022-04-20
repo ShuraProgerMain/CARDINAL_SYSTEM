@@ -14,7 +14,7 @@ namespace CardinalSystem.Cardinal.Editor.SettingsConfigsInitializer
         {
             var settingsConfigurators = Assembly.Load("Assembly-CSharp").GetTypes();
 
-            var type = typeof(ISettingConfigurationBroker);
+            var type = typeof(SettingConfigurationBroker);
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => type.IsAssignableFrom(p));
@@ -22,11 +22,11 @@ namespace CardinalSystem.Cardinal.Editor.SettingsConfigsInitializer
             var enumerable = types.ToList();
             foreach (Type t in enumerable)
             {
-                if (t.GetInterface(nameof(ISettingConfigurationBroker)) == null) continue;
+                if (t.IsAbstract) continue;
 
-                var temp = (ISettingConfigurationBroker)Activator.CreateInstance(t);
-                await temp.InitDirectory();
-                await temp.Initialize();
+                var chm = Activator.CreateInstance(t);
+                var method = type.GetMethod("Initialize");
+                if (method != null) method.Invoke(chm, new object[] { });
             }
         }
     }
