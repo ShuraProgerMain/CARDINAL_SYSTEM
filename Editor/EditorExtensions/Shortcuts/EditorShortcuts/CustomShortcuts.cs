@@ -39,8 +39,6 @@ namespace CardinalSystem.Cardinal.Editor.EditorExtensions.Shortcuts.EditorShortc
                 }
             }
             
-            Debug.Log(_pathToMyTemplateScript);
-            
             ProjectWindowUtil.CreateScriptAssetFromTemplateFile( _pathToMyTemplateScript, "Behaviour.cs");
         }
         
