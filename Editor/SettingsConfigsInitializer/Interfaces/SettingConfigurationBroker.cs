@@ -45,8 +45,7 @@ namespace CardinalSystem.Cardinal.Editor.SettingsConfigsInitializer.Interfaces
         {
             if (File.Exists(path))
             {
-                AssetDatabase.DeleteAsset(path);
-                AssetDatabase.Refresh();
+                return (T)AssetDatabase.LoadAssetAtPath(path, typeof(T));
             }
 
             var asset = ScriptableObject.CreateInstance<T>();
