@@ -9,7 +9,7 @@ namespace CardinalSystem.Cardinal.Editor.SettingsConfigsInitializer.Interfaces
     public interface ISettingConfigurationBroker
     {
         public string DirectoryLevelOne { get; set; }
-        public string DirectoryLeveTwo { get; set; }
+        public string DirectoryLevelTwo { get; set; }
         public string NameFile { get; set; }
         public string FullPath { get; set; }
         
@@ -17,23 +17,23 @@ namespace CardinalSystem.Cardinal.Editor.SettingsConfigsInitializer.Interfaces
 
         public Task InitDirectory()
         {
-            DirectoryLevelOne =  DirectoryLevelOne == String.Empty ? "/Resources" : DirectoryLevelOne;
-            DirectoryLeveTwo = DirectoryLeveTwo == String.Empty ? "/ConfigCreatedWithCardinal" : DirectoryLeveTwo;
-            NameFile = NameFile == String.Empty ? "Settings" : NameFile;
+            DirectoryLevelOne =  string.IsNullOrEmpty(DirectoryLevelOne) ? "/Resources" : DirectoryLevelOne;
+            DirectoryLevelTwo = string.IsNullOrEmpty(DirectoryLevelTwo) ? "/ConfigCreatedWithCardinal" : DirectoryLevelTwo;
+            NameFile = string.IsNullOrEmpty(NameFile) ? "Settings" : NameFile;
             
-            if (!Directory.Exists(Application.dataPath + "/Resources"))
+            if (!Directory.Exists(Application.dataPath + DirectoryLevelOne))
             {
-                Directory.CreateDirectory(Application.dataPath + "/Resources");
+                Directory.CreateDirectory(Application.dataPath + DirectoryLevelOne);
             }
 
-            if (!Directory.Exists(Application.dataPath + "/Resources/GameAnalytics"))
+            if (!Directory.Exists(Application.dataPath + DirectoryLevelOne + DirectoryLevelTwo))
             {
-                Directory.CreateDirectory(Application.dataPath + "/Resources/GameAnalytics");
+                Directory.CreateDirectory(Application.dataPath + DirectoryLevelOne + DirectoryLevelTwo);
                 Debug.LogWarning(
                     "GameAnalytics: Resources/GameAnalytics folder is required to store settings. it was created ");
             }
 
-            FullPath = $"Assets/Resources/GameAnalytics/{NameFile}.asset";
+            FullPath = $"Assets{DirectoryLevelOne}{DirectoryLevelTwo}/{NameFile}.asset";
             
             return Task.CompletedTask;
         }
