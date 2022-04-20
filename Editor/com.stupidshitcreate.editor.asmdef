@@ -1,6 +1,6 @@
 {
     "name": "com.stupidshitcreate.editor",
-    "rootNamespace": "",
+    "rootNamespace": "CardinalSystem",
     "references": [
         "GUID:06a78e8d03f400243a865c12190c756e"
     ],
